@@ -83,6 +83,18 @@ impl Mul<f64> for Vec3 {
     }
 }
 
+impl Mul<Vec3> for f64 {
+    type Output = Vec3;
+
+    fn mul(self, scalar: Vec3) -> Vec3 {
+        Vec3 {
+            x: self * scalar.x,
+            y: self * scalar.y,
+            z: self * scalar.z,
+        }
+    }
+}
+
 impl Div<f64> for Vec3 {
     type Output = Vec3;
 
@@ -99,7 +111,7 @@ impl Div<f64> for Vec3 {
 }
 
 #[cfg(test)]
-mod tests {
+mod vec3_tests {
     use super::*;
     use std::f64::EPSILON;
 
@@ -172,11 +184,19 @@ mod tests {
     }
 
     #[test]
-    fn test_mul_scalar() {
+    fn test_mul_scalar_vec3first() {
         let v = Vec3::new(1.0, 2.0, 3.0);
         let result = v * 2.0;
         assert_vec3_eq(result, Vec3::new(2.0, 4.0, 6.0));
     }
+
+    #[test]
+    fn test_mul_scalar_first() {
+        let v = Vec3::new(1.0, 2.0, 3.0);
+        let result = 2.0 * v;
+        assert_vec3_eq(result, Vec3::new(2.0, 4.0, 6.0));
+    }
+
 
     #[test]
     fn test_div_scalar() {
